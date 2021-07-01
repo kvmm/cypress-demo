@@ -3,12 +3,6 @@ name: 'Cypress E2E Testing'
 trigger:
   - master
 
-variables:
-  - name: npm_config_cache
-    value: $(Pipeline.Workspace)/.npm
-  - name: CYPRESS_CACHE_FOLDER # Overrides the default cache location
-    value: $(Pipeline.Workspace)/.cache/Cypress
-
 stages:
   - stage: e2e_testing_stage_chrome
     displayName: 'Chrome E2E Testing'
@@ -16,7 +10,7 @@ stages:
       - job: e2e_testing_job_chrome
         displayName: 'Run E2E in Chrome'
         pool:
-          vmImage: macos-latest
+          vmImage: ubuntu-latest
         steps:
           - template: devops/e2e.testing.yml
             parameters:
