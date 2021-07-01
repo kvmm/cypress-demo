@@ -12,8 +12,6 @@ steps:
       ls
       echo "Install project dependencies"
       npm i
-      VERIFY_CMD="$CMD ./node_modules/.bin/cypress verify"
-      RUN_CMD="$CMD ./node_modules/.bin/cypress run --browser ${{ parameters.browserType }}"
-      eval $VERIFY_CMD
+      RUN_CMD="$CMD cypress run --browser ${{ parameters.browserType }}"
       eval $RUN_CMD
     displayName: 'Run the cypress tests'
