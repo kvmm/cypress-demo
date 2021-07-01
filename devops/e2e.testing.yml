@@ -22,6 +22,7 @@ steps:
       # Check if verbose mode needs to be turned on
       CMD=""
       CMD="$CMD DEBUG=cypress:*"
+      ls
       VERIFY_CMD="$CMD ./node_modules/.bin/cypress verify"
       RUN_CMD="$CMD ./node_modules/.bin/cypress run --browser ${{ parameters.browserType }}"
       eval $VERIFY_CMD
