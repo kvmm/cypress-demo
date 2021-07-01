@@ -18,13 +18,6 @@ steps:
       npm i
     displayName: 'Install project dependencies'
 
-  - script: |
-      node script/generate-config.js
-    displayName: 'Generate the Cypress config'
-    env:
-      PASSWORD: $(password)
-      BROWSER: ${{ parameters.browserType }}
-
   - bash: |
       # Check if verbose mode needs to be turned on
       CMD=""
