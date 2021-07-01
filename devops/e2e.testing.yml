@@ -8,6 +8,7 @@ steps:
       # Check if verbose mode needs to be turned on
       CMD=""
       CMD="$CMD DEBUG=cypress:*"
+      cd /home/vsts/work/1/s/
 
       npm i
       ls
