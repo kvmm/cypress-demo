@@ -1,4 +1,4 @@
-name: 'Cypress E2E Testing'
+name: 'CloudEngage Cypress E2E Testing'
 
 trigger:
   - master
