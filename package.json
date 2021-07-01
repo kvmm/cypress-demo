@@ -1,15 +1,21 @@
 {
-  "name": "cypress-github",
+  "name": "cypress-pipeline-demo",
   "version": "1.0.0",
-  "description": "",
+  "description": "This is a poc project for cypress integration with azure pipeline",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "e2e": "cypress open",
-    "chrome": "cypress run --browser chrome",
-    "firefox": "cypress run --browser firefox"
+    "cy:open": "cypress open",
+    "cy:version": "cypress version",
+    "cy:run:headless": "cypress run",
+    "cy:run:chrome": "cypress run -b chrome",
+    "cy:run:firefox": "cypress run -b firefox",
+    "cy:run:edge": "cypress run -b edge",
+    "cy:run:record": "cypress run --record --key b80aa610-8ac4-4db6-a3a6-e100fa091018"
   },
-  "author": "manoj",
+  "keywords": [],
+  "author": "Mohd Nazim",
   "license": "ISC",
-  "cypress": "^5.6.0"
+  "devDependencies": {
+    "cypress": "^5.6.0"
+  }
 }

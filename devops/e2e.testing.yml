@@ -3,24 +3,59 @@ steps:
     displayName: 'Use Node 12.x'
     inputs:
       versionSpec: 12.x
+    
+  - task: Cache@2
+    displayName: 'Cache npm'
+    inputs:
+      key: 'npm | "$(Agent.OS)" | package-lock.json'
+      restoreKeys: |
+        npm | "$(Agent.OS)"
+        npm
+      path: $(npm_config_cache)
+    
+  # Caching Cypress is at the moment still slower than not caching it. Uncomment just in case you want to test it out.
+  # - task: Cache@2
+  #   displayName: 'Cache Cypress'
+  #   inputs:
+  #     key: 'cypress | $(Agent.OS) | package-lock.json'
+  #     restoreKeys: |
+  #       cypress | $(Agent.OS) | package-lock.json
+  #     path: $(CYPRESS_CACHE_FOLDER)
+
+  - script: |
+      npm i
+    displayName: 'Install project dependencies'
+
+  - script: |
+      node script/generate-config.js
+    displayName: 'Generate the Cypress config'
+    env:
+      PASSWORD: $(password)
+      BROWSER: ${{ parameters.browserType }}      
 
   - bash: |
       # Check if verbose mode needs to be turned on
       CMD=""
-      CMD="$CMD DEBUG=cypress:*"
-      cd /home/vsts/work/1/s/
+      if [ "$VERBOSE" == "true" ]
+      then
+        CMD="$CMD DEBUG=cypress:*"
+      fi        
 
-      npm i
-      ls
       VERIFY_CMD="$CMD ./node_modules/.bin/cypress verify"
-      RUN_CMD="$CMD ./node_modules/.bin/cypress run --browser ${{ parameters.browserType }}"
-
+      RUN_CMD="$CMD ./node_modules/.bin/cypress run --browser ${{ parameters.browserType }}"     
+      
       # Check if Cypress record information is provided
       if [ ! -z "$CYPRESS_RECORD_KEY" ]
       then
         # Record key was set
         RUN_CMD="$RUN_CMD --record --parallel --group \"${{ parameters.browserType }}\" --ci-build-id $BUILDID"
       fi
+
       eval $VERIFY_CMD
       eval $RUN_CMD
     displayName: 'Run the cypress tests'
+    env:
+      TERM: xterm # Avoid terminal warnings
+      VERBOSE: $(verbose)
+      BUILDID: $(Build.BuildId)
+      CYPRESS_RECORD_KEY: $(cypress_record_key)
