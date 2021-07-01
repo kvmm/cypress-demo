@@ -1,35 +1,43 @@
-# Node.js
-# Build a general Node.js project with npm.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+name: 'Cypress E2E Testing'
 
 trigger:
-- master
+  - master
 
-pool:
-  vmImage: ubuntu-latest
+stages:
+  - stage: e2e_testing_stage_chrome
+    displayName: 'Chrome E2E Testing'
+    jobs:
+      - job: e2e_testing_job_chrome
+        displayName: 'Run E2E in Chrome'
+        pool:
+          vmImage: macos-latest
+        steps:
+          - template: devops/e2e.testing.yml
+            parameters:
+              browserType: chrome
 
-steps:
-  - task: NodeTool@0
-    inputs:
-      versionSpec: '12.x'
-      displayName: 'Install Node.js'
+  - stage: e2e_testing_stage_firefox
+    displayName: 'Firefox E2E Testing'
+    dependsOn: []
+    jobs:
+      - job: e2e_testing_job_firefox
+        displayName: 'Run E2E in Firefox'
+        pool:
+          vmImage: macos-latest
+        steps:
+          - template: devops/e2e.testing.yml
+            parameters:
+              browserType: firefox
 
-  - task: Npm@1
-    displayName: 'npm install'
-    inputs:
-      verbose: false
-
-  - task: Npm@1
-    displayName: 'chrome test'
-    inputs:
-      command: custom
-      verbose: false
-      customCommand: 'run chrome'
-
-  - task: Npm@1
-    displayName: 'firefox test'
-    inputs:
-      command: custom
-      verbose: false
-      customCommand: 'run firefox'
+  - stage: e2e_testing_stage_edge
+    displayName: 'Edge E2E Testing'
+    dependsOn: []
+    jobs:
+      - job: e2e_testing_job_edge
+        displayName: 'Run E2E in Edge'
+        pool:
+          vmImage: macos-latest
+        steps:
+          - template: devops/e2e.testing.yml
+            parameters:
+              browserType: edge
