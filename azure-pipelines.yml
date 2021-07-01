@@ -7,16 +7,25 @@ trigger:
 - master
 
 pool:
-  vmImage: ubuntu-latest
+  name: Azure Pipelines
+  demands: npm
 
 steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '12.x'
-  displayName: 'Install Node.js'
+  - task: Npm@1
+    displayName: 'npm install'
+    inputs:
+      verbose: false
 
-- script: |
-    npm install
-    npm run chrome
-    npm run firefox
-  displayName: 'npm install and build'
+  - task: Npm@1
+    displayName: 'chrome test'
+    inputs:
+      command: custom
+      verbose: false
+      customCommand: 'run chrome'
+
+  - task: Npm@1
+    displayName: 'firefox test'
+    inputs:
+      command: custom
+      verbose: false
+      customCommand: 'run firefox'
