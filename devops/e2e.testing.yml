@@ -16,7 +16,7 @@ steps:
   - script: |
       npm ci
     displayName: 'Install project dependencies'
-    
+
   - bash: |
       # Check if verbose mode needs to be turned on
       CMD=""

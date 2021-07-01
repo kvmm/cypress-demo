@@ -3,6 +3,12 @@ name: 'Cypress E2E Testing'
 trigger:
   - master
 
+variables:
+  - name: npm_config_cache
+    value: $(Pipeline.Workspace)/.npm
+  - name: CYPRESS_CACHE_FOLDER # Overrides the default cache location
+    value: $(Pipeline.Workspace)/.cache/Cypress
+
 stages:
   - stage: e2e_testing_stage_chrome
     displayName: 'Chrome E2E Testing'
