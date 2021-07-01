@@ -27,7 +27,8 @@ steps:
     displayName: 'Install project dependencies'
 
   - script: |
-      node config.js
+      ls
+      node devops/config.js
     displayName: 'Generate the Cypress config'
     env:
       PASSWORD: $(password)
