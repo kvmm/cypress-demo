@@ -8,10 +8,6 @@ const config = fs.readFileSync(path.join(__dirname, '../cypress.json'), { encodi
 const configJson = JSON.parse(config);
 
 configJson.env = {
-  username: process.env.USERNAME,
-  password: process.env.PASSWORD,
-  clientid: process.env.CLIENTID,
-  clientsecret: process.env.CLIENTSECRET
 };
 
 // Rename the junit file based on the browser used

@@ -4,12 +4,6 @@ trigger:
   - master
   - dev
 
-schedules:
-  - cron: "0 6 * * *"
-    displayName: Each morning at 6am
-    branches:
-      include:
-        - dev
 
 variables:
   - ${{ if eq(variables['build.SourceBranchName'], 'master') }}:
